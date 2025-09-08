@@ -31,6 +31,14 @@ public:
         return price;
     }
 
+    void setName(const string& newName) {
+        name = newName;
+    }
+
+    void setPrice(double newPrice) {
+        price = newPrice;
+    }
+
     string toString() const {
         return name + " - $" + to_string(price);
     }
@@ -53,6 +61,18 @@ public:
         for (const auto& item : dishes) {
             cout << item.toString() << endl;
         }
+    }
+
+    bool editDish(const string& oldName, const string& newName, double newPrice) {
+        for (auto& dish : dishes) { // loop through each Dish in the list
+            if (dish.getName() == oldName) {
+                // Found the dish to edit
+                dish.setName(newName);
+                dish.setPrice(newPrice);
+                return true; // success
+            }
+        }
+        return false; // dish not found
     }
 };
 
@@ -81,25 +101,46 @@ int main() {
             cout << "Enter dish price: ";
             cin >> dishPrice;
             menu.addDish(Dish(dishName, dishPrice));
-            cout << "Dish added to Menu\n";
+            cout << "\n>> Dish added to Menu\n";
             break;
         }
         case 2:
             cout << "Displaying Menu:\n";
             menu.showMenu();
             break;
-        case 3:
-            cout << "\nMenu Edit Successfull\n"; // Not Implemented Yet
+        case 3: {
+            string oldName, newName;
+            double newPrice;
+
+            cout << "Enter the name of the dish you wish to edit: ";
+            cin >> oldName;
+
+            cout << "Enter new dish name: ";
+            cin >> newName;
+
+            cout << "Enter new dish price: ";
+            cin >> newPrice;
+
+            if (menu.editDish(oldName, newName, newPrice)) {
+                cout << "\n>> Menu Edit Successful\n";
+            }
+            else {
+                cout << "\n>> Dish not found in Menu!\n";
+                systemRun = false;
+            }
             break;
+        }
+
         case 4:
-            cout << "\nDish deleted from Menu\n"; // Not Implemented Yet
+            cout << "\n>> Dish deleted from Menu\n"; // Not Implemented Yet
             break;
         case 5:
-            cout << "\nExiting System, Goodbye!\n";
+            cout << "\n>> Exiting System, Goodbye!\n";
             systemRun = false;
             break;
         default:
             cout << "ERROR: Invalid Input\n";
+            systemRun = false;
             break;
         }
     }
