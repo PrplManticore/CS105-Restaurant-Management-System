@@ -1,0 +1,3 @@
+Burger,12.5
+Pizza,16.5
+Pasta,14.8
